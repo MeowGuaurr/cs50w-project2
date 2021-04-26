@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %} Home {% endblock %}
+
+{% block main%}
+    <form action="{{url_for('chat')}}" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="username" type="text"/>
+        </div>
+        <button class="btn btn-lg btn-primary" type="submit">Login</button>
+    </form>
+{% endblock %}
