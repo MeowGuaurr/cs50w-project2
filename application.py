@@ -17,32 +17,32 @@ socketio = SocketIO(app, manage_session=False)
 def index():
     return render_template('index.html')
 
-@app.route("/chat", methods=['GET','POST'])
-def chat():
-    if(request.method == 'POST'):
-        username = request.form['username']
-        session['username'] = username
-        return render_template('chat.html', session = session)
+#@app.route("/chat", methods=['GET','POST'])
+#def chat():
+#    if(request.method == 'POST'):
+#       username = request.form['username']
+#        session['username'] = username
+#        return render_template('chat.html', session = session)
 
-    else:
-        if(session.get('username') is not None):
-            return render_template('chat.html', session = session)
+#    else:
+#        if(session.get('username') is not None):
+#           return render_template('chat.html', session = session)
+#
+#        else:
+#           return render_template(url_for('index.html'))
 
-        else:
-            return render_template(url_for('index.html'))
+#@socketio.on('join')
+#def join(data):
+#    username = session.get('username')
+#    emit('status', {'msg: username'+'is online'})
 
-@socketio.on('join')
-def join(data):
-    username = session.get('username')
-    emit('status', {'msg: username'+'is online'})
+#@socketio.on('text')
+#def message(data):
+#    username = session.get('username')
+#    emit('message', {'msg: username' +': '+ message['msg']}, data, broadcast=True)
 
-@socketio.on('text')
-def message(data):
-    username = session.get('username')
-    emit('message', {'msg: username' +': '+ message['msg']}, data, broadcast=True)
-
-@socketio.on('left')
-def left(data):
-    username = session.get('username')
-    session.clear()
-    emit('status',{'msg: username' +' left'})
+#@socketio.on('left')
+#def left(data):
+#    username = session.get('username')
+#    session.clear()
+#    emit('status',{'msg: username' +' left'})
