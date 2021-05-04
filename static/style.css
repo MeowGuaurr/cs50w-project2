@@ -16,13 +16,11 @@ body{
     width: auto;
 }
 .sidebar-head{
-    border: 3px solid black;
     flex-basis: 20%;
     height: 100%;
 }
 .FlackBody{
     align-content: flex-start;
-
     flex-basis: 80%;
-    border: 3px solid black;
+    padding-left: 10px;
 }
