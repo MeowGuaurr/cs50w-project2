@@ -40,5 +40,8 @@ const initialize = username =>{
     socket.on("new", data => {
         show_channel(data.name, socket);
     });
+    
+    socket.on
     });
 };
+

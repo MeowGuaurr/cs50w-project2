@@ -5,33 +5,35 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask_session import Session
 from collections import deque
 
+from time import localtime, asctime
+
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 app.config["SESSION_TYPE"] = "filesystem"
 socketio = SocketIO(app)
 
-channels={"Room": {"msg": deque([], maxlen=100), "username": "def"}}
-users = {}
+channels={}
+channelslist=[]
+limit=100
+channels["general"]=[]
 
 @app.route("/")
 def index():
     return render_template('index.html')
 
-@socketio.on('userdata')
-def userdata(data):
-    if 'username' in data:
-        users[data['username']] = request.sid
+@socketio.on("connect")
+def connect():
+    emit("channels",{"channels": channels})
 
 
-@socketio.on('new')
-def new(data):
-    if data['name'] in channels:
+@socketio.on("new channel")
+def new_channel(data):
+    if data['channel'] in channelslist:
         return false
     else:
-        chanels[data['name']]={}
-        channels[data['name']]['msg']= deque(maxlen=100)
-        channels[data['username']]=data['username']
-        emit('new', {"name": data['name']}, broadcast= True)
+        chanelslist.append(data["channel"])
+        channels[data["channel"]]=[]
+        emit("new channel", {"channel": data["channel"]}, broadcast= True)
 
 #@app.route("/chat", methods=['GET','POST'])
 #def chat():
@@ -47,10 +49,12 @@ def new(data):
 #        else:
 #           return render_template(url_for('index.html'))
 
-#@socketio.on('join')
-#def join(data):
-#    username = session.get('username')
-#    emit('status', {'msg: username'+'is online'})
+@socketio.on('join')
+def join(data):
+    username = session.get('username')
+    room= data["channel"]
+    join_room(room)
+    emit("status": username + "joined", {"channels": channels}, room=room)
 
 #@socketio.on('text')
 #def message(data):

@@ -25,18 +25,26 @@
          <h1>b</h1>
      </div>
  </main>
- <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
+ <div class="modal fade" id="modalCenter">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 id="modal-title" class="modal-title text-secondary"></h5>
+      </div>
+      <div class="modal-body">
             <form id="new-username">
                 <input name="username" id="user-name" class="form-control" type="text">
                 <button type="submit" class="btn btn-primary">Log</button>
             </form>
-        </div>
+      </div>
+     </div>
+   </div>
  </div>
+
  <div class="row">
      <div class="col-lg-4 mr-2">
          <h2>Channels</h2>
-         <ul id="lista" class="list-group mt-2"></ul>
+         <ul id="channelslist" class="list-group mt-2"></ul>
          <form id="new-channel">
              <input id="name-c" class="form-control" placeholder="Add new channel"type="text">
              <button id="Add-new-channel" class="btn btn-sm btn-outline-secondary" type="submit">Create</button>
