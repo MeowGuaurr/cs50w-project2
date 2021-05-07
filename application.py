@@ -6,63 +6,83 @@ from flask_session import Session
 from collections import deque
 
 from time import localtime, asctime
+from helper import log_req
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+app.config["SECRET_KEY"] = 'SECRETKEY'
 app.config["SESSION_TYPE"] = "filesystem"
 socketio = SocketIO(app)
 
-channels={}
+
 channelslist=[]
+channelText = dict()
 limit=100
-channels["general"]=[]
+channelText["general"]=[]
+users =[]
 
 @app.route("/")
+@log_req
 def index():
     return render_template('index.html')
+
+@app.route("/login", methods=['GET','POST'])
+def login():
+    session.clear()
+    username = request.form.get("username")
+    if request.method == "POST":
+        if username in users:
+            return "invalid, username exists"
+        users.append(username)
+        session.permanent = True
+        return render_template("index.html")
+    else:
+        return render_template("login.html")
+
 
 @socketio.on("connect")
 def connect():
     emit("channels",{"channels": channels})
 
 
-@socketio.on("new channel")
-def new_channel(data):
-    if data['channel'] in channelslist:
-        return false
+@app.route("/new_channel", methods=['GET','POST'])
+def new_channel():
+    newchannel = request.form.get("channel")
+    if newchannel in channelslist:
+        return ("already exists")
     else:
-        chanelslist.append(data["channel"])
-        channels[data["channel"]]=[]
-        emit("new channel", {"channel": data["channel"]}, broadcast= True)
+        channelslist.append("new_channel")
+        channelText[newchannel] = deque()
+        return redirect("/" + str(newchannel))
 
-#@app.route("/chat", methods=['GET','POST'])
-#def chat():
-#    if(request.method == 'POST'):
-#       username = request.form['username']
-#        session['username'] = username
-#        return render_template('chat.html', session = session)
+@app.route("/new_channel/<channel>")
+def channel(channel):
+    session['channel']=channel
+    return render_template('chat.html', channelslist=channelslist, channel = channel, message = channelText[channel])
 
-#    else:
-#        if(session.get('username') is not None):
-#           return render_template('chat.html', session = session)
-#
-#        else:
-#           return render_template(url_for('index.html'))
+
+
+@socketio.on("text")
+def message(data):
+    time = asctime(localtime())
+    username = session.get('username')
+    channel = session.get('channel')
+    message = data["message"]
+    room = session.get('channel')
+    channelText[channel].append([username, message, time])
+    emit('announce message', {"user": username, "message": message, "time": time}, room = room)
+
 
 @socketio.on('join')
-def join(data):
+def join():
     username = session.get('username')
-    room= data["channel"]
+    room= session.get['channel']
     join_room(room)
-    emit("status": username + "joined", {"channels": channels}, room=room)
+    emit('joined', {"message": username + "joined"}, room=room)
 
-#@socketio.on('text')
-#def message(data):
-#    username = session.get('username')
-#    emit('message', {'msg: username' +': '+ message['msg']}, data, broadcast=True)
+@app.route("/logout")
+def log_out():
+    username=session['username']
 
-#@socketio.on('left')
-#def left(data):
-#    username = session.get('username')
-#    session.clear()
-#    emit('status',{'msg: username' +' left'})
+    session.clear()
+    return redirect("/")
+
