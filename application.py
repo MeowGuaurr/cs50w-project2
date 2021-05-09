@@ -52,9 +52,9 @@ def new_channel():
     else:
         channelslist.append("new_channel")
         channelText[newchannel] = deque()
-        return redirect("/" + str(newchannel))
+        return redirect("/" + newchannel)
 
-@app.route("/new_channel/<channel>")
+@app.route("/<channel>")
 def channel(channel):
     session['channel']=channel
     return render_template('chat.html', channelslist=channelslist, channel = channel, message = channelText[channel])
