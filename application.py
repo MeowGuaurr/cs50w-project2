@@ -23,7 +23,7 @@ users =[]
 @app.route("/")
 @log_req
 def index():
-    return render_template('index.html')
+    return render_template('index.html', channelslist = channelslist)
 
 @app.route("/login", methods=['GET','POST'])
 def login():
@@ -39,10 +39,6 @@ def login():
         return render_template("login.html")
 
 
-@socketio.on("connect")
-def connect():
-    emit("channels",{"channels": channels})
-
 
 @app.route("/new_channel", methods=['GET','POST'])
 def new_channel():
@@ -56,7 +52,7 @@ def new_channel():
 
 @app.route("/<channel>")
 def channel(channel):
-    session['channel']=channel
+    session['channel']= channel
     return render_template('chat.html', channelslist=channelslist, channel = channel, message = channelText[channel])
 
 

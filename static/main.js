@@ -5,15 +5,30 @@ document.addEventListener("DOMContentLoaded", () => {
     socket.on('connect', () => {
        socket.emit('join');
 
+       document.querySelector('#msg').onkeyup = () => {
+           if(document.querySelector('#msg').value.length < 0)
+                document.queryelector('#submit').disabled = true;
+           else
+                document.querySelector('#submit').disabled = false;
+       };
+
+        document.querySelector('#nmsg').onkeyup = () => {
+            const message = document.querySelector('#msg').value = '';
+            document.querySelector('#submit').disabled = true;
+            socket.emit('text',{'message' : message});
+
+            return false;
+        };
+
     });
 
     socket.on('announce message', data => {
-        let l = localStorage.getItem("localuser")
-        console.log(l)
+        let l = localStorage.getItem("localuser");
+        console.log(l);
         const li = document.createElement('li');
-        let usuario = data.user
+        let usuario = data.user;
         if (usuario != l){
-            li.className = 'localchat'
+            li.className = 'localchat';
         }
         else{
             li.className = 'chat'

@@ -1,18 +1,31 @@
 {% extends "layout.html" %}
 
 {% block content %}
+<div>
+    <h3>Welcome, {{session['username']}}</h3>
+</div>
 
 <div class="row text-center">
      <div class="col-lg-4 mr-2">
         <h2>Chat</h2>
         {%- if not messages -%}
+            <li>Share a message</li>
+        {%- endif -%}
+
+        {%- if message -%}
             {%- for message in messages -%}
-                <lli><b>{{ message }}</b></lli>
+                {% if message =! session['username] %}
+                <li class="chat"><b>{{ message }}</b></li>
+
+                {% else %}
+                 <li class="localchat"><b>{{ message }}</b></li>
+                {% endif %}
             {%- endfor -%}
 
             {{ '*********NEW MESSAGES********' }}
             {{- '\n' -}}
         {%- endif -%}
+
         <ul id="msg">
 
         </ul>
