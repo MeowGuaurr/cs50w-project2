@@ -33,6 +33,7 @@ def login():
         if username in users:
             return "invalid, username exists"
         users.append(username)
+        session['username'] = username
         session.permanent = True
         return render_template("index.html")
     else:
@@ -49,13 +50,6 @@ def new_channel():
         channelslist.append("new_channel")
         channelText[newchannel] = deque()
         return redirect("/" + newchannel)
-
-@app.route("/<channel>")
-def channel(channel):
-    session['channel']= channel
-    return render_template('chat.html', channelslist=channelslist, channel = channel, message = channelText[channel])
-
-
 
 @socketio.on("text")
 def message(data):
@@ -75,6 +69,12 @@ def join():
     join_room(room)
     emit('joined', {"message": username + "joined"}, room=room)
 
+
+@app.route("/<channel>")
+def channel(channel):
+    session['channel']= channel
+    return render_template('chat.html', channelslist=channelslist, broadcast=True)
+
 @app.route("/logout")
 def log_out():
     username=session['username']
@@ -82,3 +82,5 @@ def log_out():
     session.clear()
     return redirect("/")
 
+if __name__ == '__main__':
+    socketio.run(app, debug=True)

@@ -1,9 +1,17 @@
 {% extends "layout.html" %}
 
 {% block content%}
-    <form action="/login" method="POST">
+
+    <script>
+        document.querySelector('#log').onsubmit =() => {
+            const username = document.querySelector('#username').value;
+            localStorage.setItem("localuser", username);
+        };
+    </script>
+
+    <form action="/login" method="POST" id="log">
         <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control box" name="username" placeholder="username" type="text"/>
+            <input autocomplete="off" autofocus class="form-control box" name="username" id="username" placeholder="username" type="text"/>
         </div>
         <button class="button_form" type="submit">
             Log in

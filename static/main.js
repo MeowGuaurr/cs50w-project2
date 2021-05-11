@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var socket = io.connect(location, protocol + "//" + document.domain + ":" + location.port);
     socket.on('connect', () => {
        socket.emit('join');
-
+        document.querySelector('#submit').disabled = true;
        document.querySelector('#msg').onkeyup = () => {
            if(document.querySelector('#msg').value.length < 0)
                 document.queryelector('#submit').disabled = true;
@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.querySelector('#submit').disabled = false;
        };
 
-        document.querySelector('#nmsg').onkeyup = () => {
+        document.querySelector('#nmsg').onsubmit = () => {
             const message = document.querySelector('#msg').value = '';
             document.querySelector('#submit').disabled = true;
             socket.emit('text',{'message' : message});
@@ -42,3 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
         li.innerHtml =  `<b>${data.message}`;
         document.querySelector('#msg').append(li);
     });
+
+    document.querySelector('#log').onsubmit =() => {
+        const username = document.querySelector('#username').value;
+        localStorage.setItem("localuser", username);
+    };

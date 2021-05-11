@@ -3,6 +3,7 @@
 {% block content %}
 <div>
     <h3>Welcome, {{session['username']}}</h3>
+    <h3>channel: {{ session['channel'] }}</h3>
 </div>
 
 <div class="row text-center">
@@ -14,20 +15,17 @@
 
         {%- if message -%}
             {%- for message in messages -%}
-                {% if message =! session['username] %}
-                <li class="chat"><b>{{ message }}</b></li>
+                {%- if message[0] != session['username'] -%}
+                <li class="chat"><b>{{ message[0] }}</b>{{ message[1] }}{{ '\n' }}{{ message[2] }}</li>
 
-                {% else %}
-                 <li class="localchat"><b>{{ message }}</b></li>
-                {% endif %}
+                {%- else -%}
+                 <li class="localchat"><b>{{ message[0] }}</b>{{ message[1] }}{{ '\n' }}{{ message[2] }}</li>
+                {%- endif -%}
             {%- endfor -%}
-
-            {{ '*********NEW MESSAGES********' }}
-            {{- '\n' -}}
         {%- endif -%}
 
         <ul id="msg">
-
+            <li></li>
         </ul>
 
         <form id="nmsg">
