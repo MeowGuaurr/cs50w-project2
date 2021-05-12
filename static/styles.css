@@ -4,8 +4,14 @@ body{
 }
 
 #FlackHeader{
+  background-color: #373D48;
   border: 1px solid black;
+  color: #00A3E0;
+  display: flex;
+  flex-direction: row-reverse;
   height: 60px;
+  padding-right: 2%;
+  padding-top: 10px;
 }
 
 
@@ -48,6 +54,13 @@ body{
   font-size: 1.25rem;
 }
 
+.sidebar-messages{
+  list-style-type: none;
+}
+
+.sidebar-messages-private{
+  list-style-type: none;
+}
 /*.sidebar-head{
     flex-basis: 20%;
     height: 100%;
@@ -85,8 +98,12 @@ body{
 .FlackContent-messagesDisplay {
   color: white;
   height: 420px;
+  list-style-type: none;
   overflow-y: scroll;
   width: 100%;
+}
+.FlackContent-messagesDisplay.scroll{
+  overflow-y: scroll;
 }
 
 .FlackContent-messages{
