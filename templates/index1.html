@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+
+
+
+
+<div class="row">
+    <div class="col-lg-4 mr-2">
+         <h2>Channels</h2>
+         <ul id="channelslist" class="list-group mt-2"></ul>
+         <form action="/new_channel" id="new-channel" method="post">
+             <input name="channel" id="channel" class="form-control" placeholder="Add new channel"type="text">
+             <button id="Add-new-channel" class="btn btn-sm btn-outline-secondary" type="submit">Create</button>
+         </form>
+    </div>
+</div>
+
+
+{% endblock %}
