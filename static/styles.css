@@ -47,6 +47,15 @@ body{
   padding-left: 4.6%;
 }
 
+.channelList{
+  color: lightgray;
+}
+
+.sidebar-channels{
+  padding-left: 4.6%;
+  padding-top: 2.2%;
+}
+
 #FlackMain .sidebar-title.main-title{
   font-size: 1.8rem;
 }
@@ -57,6 +66,9 @@ body{
 
 #FlackMain .sidebar-messages{
   list-style-type: none;
+  background-color: #373D48;
+  flex-basis: 20%;
+  height: 100%;
 }
 
 .sidebar-messages-private{
@@ -64,7 +76,6 @@ body{
 }
 #FlackMain .sidebar-head{
     flex-basis: 20%;
-    height: 100%;
 }
 
 
@@ -79,9 +90,6 @@ body{
   justify-content: flex-start;
 }
 
-.FlackContent div{
-  width: 100%;
-}
 
 .FlackContent-head {
   background-color: #373D48;
@@ -139,4 +147,7 @@ border: 1px solid black;
 height: 74px;
 }
 
+.media{
+  padding-right: 5%;
+}
 

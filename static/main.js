@@ -27,6 +27,7 @@ function loadMessages(data) {
         mediaBody.append(username);
         mediaBody.append(time);
         mediaBody.append(p);
+      
         
         $('#messages').scrollTop(500000);
 }
@@ -124,7 +125,7 @@ $(function(){
 
         if (!localStorage.getItem('username')) {
             $("#myModal").modal({backdrop: 'static', keyboard: false});
-            $('.modal-title').text("Please enter your username");
+            $('.modal-title').text("Please provide username");
             $('#modalInput').val("");
         }
     });
@@ -243,7 +244,7 @@ $(function(){
     //modal para ingresar el nombre del nuevo canal
     $('kbd').on('click',function (){
         $("#myModal").modal({backdrop: 'static', keyboard: false});
-        $('.modal-title').text("Please enter channel name");
+        $('.modal-title').text("Create a channel");
         $('#modalInput').val("");
         $("#modalButton").attr('disabled',true);
     });
