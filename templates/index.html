@@ -3,85 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
-    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js" integrity="sha384-LzhRnpGmQP+lOvWruF/lgkcqD+WDVt9fU3H4BWmwP5u5LTmkUGafMcpZKNObVMLU" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
+    
     <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
     <script src="{{  url_for('static', filename= 'main.js') }}"></script>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ url_for('static', filename='../static/styles.css') }}">
+
 
     <title>Flack</title>
     </head>
 <body>
     <header id="FlackHeader">
-        <h4 id="usernameID"></h4>
+        <h4 id='username'></h4>
     </header>
 
 
 
-<main id="FlackMain">
+<div id="FlackMain">
       <div class="sidebar">
         <div class= "sidebar-head">
           <h1 class="sidebar-title main-title">Flack</h1>
         </div>
         <div class= "sidebar-body">
-            <h2 class="sidebar-title">Messages</h2>
-            <ul class="sidebar-messages channel-list" id="channelsList">
-                <h3 class="sidebar-title channel-title">Channels</h3>
-                <li class="sidebar-channels"><i class="far fa-comments"></i> xd1</li>
-                <li class="sidebar-channels"><i class="far fa-comments"></i> xd2</li>
-                <li class="sidebar-channels"><i class="far fa-comments"></i> xd3</li>
-            </ul>
-            <ul class="sidebar-messages-private" id="private">
-                <h3 class="sidebar-title channel-title">Private</h3>
-                <li class="sidebar-channels"><i class="far fa-comment"></i> xd1</li>
-                <li class="sidebar-channels"><i class="far fa-comment"></i> xd2</li>
-                <li class="sidebar-channels"><i class="far fa-comment"></i> xd3</li>
+            <h2 class="sidebar-title">Channels <kbd>+</kbd></h2>
+            <ul class="sidebar-messages channelList" id='channelList'>
+                <li class="sidebar-channels channelList"><i class="far fa-comment"></i> xd1</li>
             </ul>
         </div>
       </div>
 
       <div class="FlackContent">
           <div class="FlackContent-head">
-              <h2 class="FlackContent-title">General</h2>
+              <h2 class="FlackContent-title">Messages</h2>
           </div>
-          <ul class="FlackContent-messagesDisplay .scroll">
-            <li class="FlackContent-messages">xd1</li>
-            <li class="FlackContent-messages">xd2</li>
-            <li class="FlackContent-messages">xd3</li>
+          <ul id='messages' class="list-group FlackContent-messagesDisplay .scroll">
+            <li class="FlackContent-messages">xd1</li> 
           </ul>
           <form class="FlackContent-form">
               <div class="form-group">
                   <div class="FlackContent-messageBody">
-                      <textarea class="FlackContent-mesageInput form-control" name="messageInput" rows="2" cols="120" id="message">Write a message</textarea>
-                  </div>
-                  <div class="FlackContent-options input-group-append">
-                      <button class="FlackContent-optionsButton btn btn-outline-secondary" type="button"><i class="far fa-paper-plane"></i></button>
+                      <textarea type="text" id='messageInput' class=" form-control text-right FlackContent-mesageInput" name="messageInput" rows="2" cols="120"  placeholder="Write a messag"></textarea>
                   </div>
               </div>
           </form>
      </div>
-</main>
-<div class="modal fade" id="FlackModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"></h4>
-            </div>
-            <div class="modal-body">
-                <input id="modalInput" type="text" class="form-control w-50">
-            </div>
-            <div class="modal-footer">
-                <button id="modalButton" type="button"></button>
+    </div>
+    <div class="modal fade" id="myModal" >
+        <div class="modal-dialog">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h4 class="modal-title "></h4>
+                </div>
+                <div class="modal-body">
+                    <input id='modalInput' type='text' class="form-control w-50"  >
+                </div>
+                <div class="modal-footer">
+                    <button id='modalButton' type="button" class="btn btn-danger" data-dismiss="modal" disabled>Ok</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 <footer id="FlackFooter"></footer>
 
